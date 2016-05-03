@@ -13,16 +13,33 @@ var usertagsmodel = require('../mongoDB/usertags.js');
 var userIssuesmodel = require('../mongoDB/userissues.js');
 var url = require('url');
 
+var auth_url = github.auth.config({
+  id: process.env.CLIENT_ID,
+  secret: process.env.CLIENT_SECRET,
+  apiUrl: 'http://localhost:'+process.env.PORT,
+  webUrl: 'https://'+process.env.AOuth_HOST
+}).login(['user', 'repo']);
+// var state = auth_url.match(/&state=([0-9a-z]{32})/i);
+
+console.log("auth_url:");
+console.log(auth_url);
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'issues' });
-  console.log(req.body);
+  res.render('Login', { title: 'issues', API_HOST:'github.com', CLIENT_ID:'d58a299ef179a8acc813'});
 });
 
-/* GET test page. */
-router.get('/test', function(req, res, next) {
-  res.render('test', { title: 'issues' });
+/* GET Login page. */
+router.get('/issues', function(req, res, next) {
+  var code = req.query.code;
+  github.auth.login(code, function (err, token) {
+   	console.log("err:");
+   	console.log(err)
+   	console.log("token:");
+   	console.log(token)
+   	res.render('index', { title: 'issues', token:token});
+   	req.session.token = token;
+  });
 });
 
 /* GET issues text. */
