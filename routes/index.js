@@ -17,6 +17,7 @@ var url = require('url');
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'issues' });
+  console.log(req.body);
 });
 
 /* GET test page. */

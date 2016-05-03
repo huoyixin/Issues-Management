@@ -53,51 +53,7 @@ require(['jimu/dijit/Popup',
   });
   LoadingIndicator.placeAt(dom.byId('overlayer'));
 
-  var containerStr =
-    '<div for="username" class="margin5">Username</div>' +
-    '<input class="popupContent" type="text" value="" name="Username" data-dojo-type="dijit/form/TextBox" ' +
-    'data-dojo-props="trim:true" id="username" class="margin5"/>' +
-    '<div for="password " class="margin5">Password</div>' +
-    '<input class="popupContent" type="password" value="" name="password" data-dojo-type="dijit/form/TextBox" ' +
-    'data-dojo-props="trim:true" id="password" class="margin5"/>' +
-    '<div id= "loginmessage" class="margin5"><div/>';
-
-  var popup = new Popup({
-    id: 'loginpopup',
-    content: containerStr,
-    container: 'overlayer',
-    titleLabel: '<span class="octicon octicon-logo-github"></span>',
-    autoHeight: true,
-    width: 350,
-    buttons: [{
-      label: 'Sign in',
-      onClick: function() {
-        dom.byId('loginmessage').innerHTML = "";
-        var username = dijit.byId('username').value;
-        var password = dijit.byId('password').value;
-        Signin(username, password);
-      }
-    }],
-    onClose: function() {
-      var repo = dijit.byId('repos').value;
-      if (username_Login == '' || password_Login == "") {
-        dom.byId('loginmessage').innerHTML = "";
-        dom.byId('loginmessage').innerHTML = "Please Sign in";
-        return false;
-      } else {
-        if (repo == "") {
-          dom.byId('loginmessage').innerHTML = "";
-          dom.byId('loginmessage').innerHTML = "Sorry, can not find any repo";
-          return false;
-        } else {
-          return true;
-        };
-      };
-    }
-  });
-  popup.placeAt(dom.byId('overlayer')).startup();
-  parser.instantiate(query(".popupContent"));
-
+  //Signin(yixi8524, LEI20130515hyx);
   new Select({
     name: "repos",
     options: []
