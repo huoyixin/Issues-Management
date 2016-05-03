@@ -1,0 +1,275 @@
+body {
+  font-family: 'Helvetica Neue', 'Arial', sans-serif;
+  line-height: 1.6em;
+  font-size: 13px;
+  color: #333;
+}
+
+a {
+  text-decoration: none;
+  color: #08c;
+}
+
+h1 {
+  font-weight: normal;
+}
+
+time {
+  float: right;
+  font-size: 12px;
+  color: #999;
+}
+
+img {
+	max-height: 1000px;
+	max-width: 1000px;
+}
+
+.margin5 {
+	margin: 5px;
+}
+
+.margin10 {
+	margin: 10px;
+}
+
+.floatRight {
+	float:right; 
+}
+
+#hadertitle {
+	line-height: 80px;
+    color: #111111;
+    font-weight: bolder;
+    font-size: 30px;
+}
+
+.issues-open-png {
+	float:left; 
+	margin-right: 8px;
+	width: 40px;
+	height: 40px;
+	border: 1px solid #e0e0e0;
+  	border-radius: 5px;
+}
+
+.comment-png {
+	float:left; 
+	margin-right: 8px;
+	width: 20px;
+	height: 20px;
+	border: 1px solid #e0e0e0;
+  	border-radius: 5px;
+}
+
+#userpng {
+	float:left; 
+	margin: 10px;
+	width: 60px;
+	height: 60px;
+	border: 1px solid #e0e0e0;
+  	border-radius: 5px;
+}
+
+#repodiv {
+	height: 80px;
+	vertical-align: middle;
+	padding: 25px;
+}
+
+#overlayer {
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+}
+
+#Container {
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+}
+
+#top {
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 80px;
+	overflow: hidden;
+	background-color: #F3F3F3;
+}
+
+#navbar {
+	overflow: hidden;
+	height: auto;
+	background-color: #FAFAFA;
+}
+
+#navbar .navbar-container {
+	height: auto;
+	margin-left: 300px;
+	margin-right: 300px;
+	background-color: #FAFAFA;
+}
+
+.dijitTooltipConnector {
+	display: none;
+}
+
+#content {
+	overflow: auto;
+	margin: 0 auto;
+  	padding: 20px 300px;
+}
+
+#pagecontral {
+	text-align:center;
+	height: 40px;
+/*  	background-color: red;*/
+}
+
+.selectdiv {
+	overflow: auto;
+	max-height: 400px;
+}
+
+.lable-select {
+	width: 290px;
+	height: auto;
+}
+
+
+.item {
+	margin: 10px;
+	padding: 10px;
+	background-color: #CCFFFF;
+}
+
+.commentItem {
+	margin: 5px;
+	padding: 5px;
+	background-color: #FC9;
+}
+
+.issue-title-link {
+	padding-right: 3px;
+    margin-bottom: 2px;
+    font-size: 15px;
+    font-weight: bold;
+    line-height: 1.2;
+    color: #333;
+}
+
+.comment {
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+
+.comment:not(:last-child):after {
+  content: ""; display: block;
+  margin-top: 1px;
+  margin-left: 15px;
+  border-left: 2px solid #f0f0f0;
+  height: 20px;
+  position: absolute;
+}
+
+.issue-meta {
+	margin-top: 4px;
+}
+
+.meta {
+  background: #F5F5F5;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 8px 15px 8px 8px;
+}
+
+.person {
+  font-weight: bold;
+}
+
+.body {
+  padding: 15px;
+}
+
+.badge {
+  padding: 2px 5px;
+  border-radius: 3px;
+  background: #999;
+  color: #fff;
+  font-weight: bold;
+  margin-right: 3px;
+  text-transform: capitalize;
+}
+
+.badge.closed { background: #c00; }
+.badge.open { background: #5c5; }
+
+.milestone_title {
+	margin-left: 5px;
+}
+.milestone_count {
+	float: right;
+	margin: 1px;
+}
+
+.label_name {
+	margin-left: 5px;
+}
+
+.menu-png {
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    float: left;
+    height: 20px;
+    margin: auto 2px;
+    width: 20px;
+}
+
+.assignee_menu {
+	display: inline-block;
+	margin-left: 10px;
+}
+
+#userTagCenter {
+	position: fixed;
+	top: 130px;
+	left: 30px;
+	width: 240px;
+}
+
+#userownTagcolour{
+	margin-top: 8px;
+}
+
+#issuesCount {
+    position: fixed;
+    bottom: 20px;
+    right: 30px;
+    min-width: 53px;
+    height: 25px;
+    background-color: #F3F3F3;
+    padding: 8px;
+    border-radius: 5px;
+  	line-height:25px;   
+  	overflow:hidden;
+  	font-weight: bold;
+}
+#scrolltop {
+	position: fixed;
+    bottom: 70px;
+    right: 30px;
+}
+
+#tagTable {
+	max-height: 350px;
+}
+
+.tagBox {
+    display: inline-block;
+}

@@ -1,0 +1,9 @@
+/node_modules
+*npm-debug.log
+/.idea
+
+
+/public/stemapp
+octonode.js
+comments.json
+config.env

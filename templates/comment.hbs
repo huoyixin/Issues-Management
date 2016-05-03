@@ -1,0 +1,12 @@
+{{#each this}}
+  <div class="comment">
+    <div class="meta">
+      <img class ="comment-png" src="{{user.avatar_url}}">
+      <div class="issue-meta">                 
+      	<span class="person">{{user.login}} :</span>
+      	<time>{{created_at}}</time>
+      </div>
+      <p>{{{body}}}</p>
+    </div>
+  </div>
+{{/each}}

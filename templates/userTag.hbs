@@ -1,0 +1,7 @@
+{{#each this}}
+    <div class="meta">
+      <span class= "badge" style= "background-color:{{color}}">{{tagName}}</span>
+      <span>{{count}}</span>
+      <button data-dojo-type="dijit/form/Button" value="{{tagName}}" onClick="getIssuesByTag(this.value);" data-dojo-props="iconClass:'dijitEditorIcon dijitEditorIconCut'" type="button"><span class="octicon octicon-chevron-right"></span></button>
+    </div>
+{{/each}}

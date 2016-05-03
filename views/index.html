@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>issues</title>
+    <link href="/stylesheets/Esri-dojo-theme-flat/CSS/dojo/flat.css" rel="stylesheet">
+<!--     <link href="/stemapp/arcgis-js-api/esri/css/esri.css" rel="stylesheet">
+  	<link href="/stemapp/arcgis-js-api/dojo/resources/dojo.css" rel="stylesheet">
+  	<link href="/stemapp/arcgis-js-api/dijit/themes/claro/claro.css" rel="stylesheet"> -->
+    <link href="/stemapp/jimu.js/css/jimu.css" rel="stylesheet">
+    <link href="/stemapp/jimu.js/css/jimu-theme.css" rel="stylesheet">
+  	<link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel='stylesheet' href='/stylesheets/buttons.css' />
+    <link rel='stylesheet' href='/stylesheets/menuPanel.css'/>
+    <link rel='stylesheet' href='/stylesheets/font-awesome-4.5.0/css/font-awesome.min.css' />
+    <link rel='stylesheet' href='/stylesheets/octicons/octicons.css' />
+
+  	<script type="text/javascript" src="/javascripts/init.js"></script>
+  	<script src="/stemapp/arcgis-js-api/dojo/dojo.js"></script>
+    <script type="text/javascript" src='/javascripts/index.js'></script>
+
+  </head>
+  <body class="claro">
+    <div id='overlayer'>
+      <div id='Container' dojoType="dijit/layout/BorderContainer" design="headline" gutters="false" liveSplitters="true">
+      	<header id='top' dojoType="dijit/layout/ContentPane" region="top">
+            <img id ="userpng" src="/images/login.png">
+      		 	<span id="hadertitle" >Issues</span>
+            <div id ="repodiv" class="floatRight">
+              <label for="repos" >Repos:</label>
+              <select id="repos" class="select"></select>
+        	  </div>
+      	</header>
+        <div dojoType="dijit/layout/ContentPane" region="center">
+          <div id="navbar">
+            <a name="contenttop" id="contenttop"></a>
+            <div id="menu" class="navbar-container"></div>
+          </div>
+          <div id='content'></div>
+        </div>
+      </div>
+      <div id="userTagCenter" data-dojo-type="dijit/TitlePane" data-dojo-props="title:'My Own Tag', open:true">
+        <div id="userTagContent"></div>
+        <button id ="ManageuserownTag" data-dojo-type="dijit/form/Button" type="button">Manage Tag</button>
+      </div>
+    </div>
+    <a id = "scrolltop" href="#contenttop" target="_self" class="button button-rounded button-tiny">Top</a>
+    <div id = "issuesCount"></div>
+  </body>
+</html>

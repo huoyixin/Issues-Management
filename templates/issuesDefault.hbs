@@ -1,0 +1,44 @@
+{{#each this}}
+{{#if pull_request}}
+{{else}}
+  {{#if show}}
+  <div class="comment">
+    <div class="meta">
+      <img class ="issues-open-png" src="{{user.avatar_url}}">
+      <span class="badge {{state}}">{{state}}</span><a class="issue-title-link" href="{{html_url}}">{{title}}</a>
+      {{#each labels}}
+      <span class= "badge" style= "background-color:#{{color}}">{{name}}</span>
+      {{/each}}
+      <div class="issue-meta">          
+      <span>#{{number}} opened by</span><span class="person"> {{user.login}}</span>
+      <span class="octicon octicon-milestone"></span>
+      {{#if milestone.title}}
+      <span> {{milestone.title}}</span>
+      {{else}}
+      <span class= "badge" style= "background-color:#999999">No Assign Milestone</span>
+      {{/if}}
+      <time>{{created_at}}</time>
+      </div>
+    </div>
+    <div class="body">
+      <p>Assignee : <span class="person">{{assignee.login}}</span></p>
+      <span>My Own Lable : </span>
+      <div class="tagBox box{{number}}">
+        {{#each tag}}
+        <span class= "badge usertag{{../number}}" style= "background-color:{{colour}}">{{name}}</span>
+        {{/each}}
+      </div>
+      <div class="{{number}} tagMenu"></div>
+      <p>Description : </p>
+      {{#if description}}
+      <span class="issuesdescription description{{number}}" data-dojo-type="dijit/InlineEditBox" data-dojo-props="editor:'dijit/form/Textarea', onChange:function(){saveDescription({{number}});}, autoSave: false" title="Description">{{description}}</span> 
+      {{else}}
+      <span class="issuesdescription description{{number}}" data-dojo-type="dijit/InlineEditBox" data-dojo-props="editor:'dijit/form/Textarea', onChange:function(){saveDescription({{number}});}, autoSave: false" title="Description">Add a description</span> 
+      {{/if}}
+    </div>
+    <div class="issuescomment" data-dojo-type="dijit/TitlePane" data-dojo-props="title:'Comment({{comments}})', open:false, onFocus:function(){getComment({{number}});}"><div id="comment{{number}}"></div></div>
+    <div class="issuesBody" data-dojo-type="dijit/TitlePane" data-dojo-props="title:'Content',open:false, onFocus:function(){getContent({{number}});}"><div id="Content{{number}}"></div></div>
+  </div>
+  {{/if}}
+{{/if}}
+{{/each}}
