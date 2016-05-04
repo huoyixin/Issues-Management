@@ -225,6 +225,7 @@ require(['jimu/dijit/Popup',
         status: statusStr,
         outputsetting: outputsettingStr,
         assignee: assigneeStr,
+        username: username_Login,
         token: token,
         repo: repoStr
       },
