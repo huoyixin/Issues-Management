@@ -16,30 +16,29 @@ var url = require('url');
 var auth_url = github.auth.config({
   id: process.env.CLIENT_ID,
   secret: process.env.CLIENT_SECRET,
-  apiUrl: 'http://localhost:'+process.env.PORT,
-  webUrl: 'https://'+process.env.AOuth_HOST
+  apiUrl: 'https://localhost:' + process.env.PORT,
+  webUrl: 'https://' + process.env.AOUTH_HOST
 }).login(['user', 'repo']);
-// var state = auth_url.match(/&state=([0-9a-z]{32})/i);
-
-console.log("auth_url:");
-console.log(auth_url);
-
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('Login', { title: 'issues', API_HOST:'github.com', CLIENT_ID:'d58a299ef179a8acc813'});
-});
 
 /* GET Login page. */
-router.get('/issues', function(req, res, next) {
-  var code = req.query.code;
-  github.auth.login(code, function (err, token) {
-   	console.log("err:");
-   	console.log(err)
-   	console.log("token:");
-   	console.log(token)
-   	res.render('index', { title: 'issues', token:token});
-   	req.session.token = token;
-  });
+router.get('/', function(req, res, next) {
+
+	var code = req.query.code;
+	github.auth.login(code, function (err, token) {
+
+		if(err){
+			console.log("err:"+err);
+		}
+		res.cookie('token', token);
+		res.render('index');
+	});
+
+});
+
+/* GET home page. */
+router.get('/Login', function(req, res, next) {
+    res.render('Login', { AOuth_HOST:process.env.AOUTH_HOST, 
+    					  CLIENT_ID:process.env.CLIENT_ID });
 });
 
 /* GET issues text. */
@@ -47,7 +46,7 @@ router.post('/getissues', function(req, res) {
 
 	var assignee = req.body.assignee;
   	var username = req.body.username;
-  	var password = req.body.password;
+	var token = req.body.token;
   	var product = req.body.product;
 	var repo = req.body.repo;
 	var milestone = req.body.milestone;
@@ -119,10 +118,7 @@ router.post('/getissues', function(req, res) {
 					}
 	}
 	
-	var client = github.client({
-	  username: username,
-	  password: password
-	},{
+	var client = github.client(token,{
 	  hostname: process.env.API_HOST
 	});
 
@@ -211,17 +207,12 @@ router.post('/getissues', function(req, res) {
 });
 
 /* GET repo information. */
-router.post('/getrepo', function(req, res) {
+router.post('/getrepoinfo', function(req, res) {
 
+	var token = req.body.token;
 	var username = req.body.username;
-  	var password = req.body.password;
 	var repo = req.body.repo;
-	console.log(username+','+password+','+repo+','+process.env.API_HOST);
-
-	var client = github.client({
-	  username: username,
-	  password: password
-	},{
+	var client = github.client(token,{
 	  hostname: process.env.API_HOST
 	});
 
@@ -232,6 +223,7 @@ router.post('/getrepo', function(req, res) {
 	var tagStr = '';
 	var infoStr = '';
 	var assigneeStr = '';
+
 	ghrepo.milestonesAsync({page: 0,per_page: 100,state:'all'})
 		.then(function(data){
 			milestonesStr = '{"number":'+ -1 +',"state":"No Assign","title":"No Milestones","count":" "},'
@@ -293,18 +285,15 @@ router.post('/getmytag', function(req, res) {
 /* GET issues comment. */
 router.post('/getcomment', function(req, res) {
 
-	var username = req.body.username;
-  	var password = req.body.password;
+	var token = req.body.token;
 	var repo = req.body.repo;
 	var number = req.body.number;
-	console.log(username+','+password+','+repo+','+number+','+global.apiUrl);
+  	console.log("token:"+token);
 
-	var client = github.client({
-	  username: username,
-	  password: password
-	},{
+	var client = github.client(token,{
 	  hostname: process.env.API_HOST
 	});
+
 	var ghissue = client.issue(repo, number);
 
 	ghissue.commentsAsync()
@@ -336,18 +325,14 @@ router.post('/getcomment', function(req, res) {
 
 router.post('/getContent', function(req, res) {
 
-	var username = req.body.username;
-  	var password = req.body.password;
+	var token = req.body.token;
 	var repo = req.body.repo;
 	var number = req.body.number;
-	console.log(username+','+password+','+repo+','+number+','+global.apiUrl);
 
-	var client = github.client({
-	  username: username,
-	  password: password
-	},{
+	var client = github.client(token,{
 	  hostname: process.env.API_HOST
 	});
+
 	var ghissue = client.issue(repo, number);
 
 	ghissue.infoAsync()
@@ -359,15 +344,11 @@ router.post('/getContent', function(req, res) {
 		});
 });
 
-router.post('/signin', function(req, res) {
-	var username = req.body.username;
-  	var password = req.body.password;
-  	console.log(username+password);
+router.post('/getuserstatus', function(req, res) {
+	var token = req.body.token;
+  	console.log("token:"+token);
 
-	var client = github.client({
-	  username: username,
-	  password: password
-	},{
+	var client = github.client(token,{
 	  hostname: process.env.API_HOST
 	});
 
@@ -389,29 +370,26 @@ router.post('/signin', function(req, res) {
 	});
 });
 
-router.post('/getuserimage', function(req, res) {
+router.post('/getuserinfo', function(req, res) {
 
-	var username = req.body.username;
-  	var password = req.body.password;
-  	console.log(username+password);
-
-	var client = github.client({
-	  username: username,
-	  password: password
-	},{
+	var token = req.body.token;
+	var client = github.client(token,{
 	  hostname: process.env.API_HOST
 	});
 
 	var ghme = client.me();
 	ghme.info(function(err, data) {
-
   		if(err != null){
   			res.status(400).send('Error');
   		}else{
-  			res.status(200).send(data.avatar_url);
+  			var infoJson = {avatar_url:data.avatar_url,
+			  				loginName:data.login,
+			  				html_url:data.html_url}
+  			res.status(200).send(infoJson);
   		};
 
 	});
+
 });
 
 router.post('/getusertag', function(req, res) {
@@ -419,12 +397,10 @@ router.post('/getusertag', function(req, res) {
 	var username = req.body.username;
 
 	usertagsmodel.usertags.find({ username: username },function(err, data){
-
 	  	var tagStr = "";
 	  	if(err != null){
   			res.status(400).send('Error');
   		}else{
-
   			for(let i=0;i<data.length;i++){
 				tagStr += '{"tagName":"'+data[i].toObject().tagname+'","color":"'+data[i].toObject().tagcolour+'"},'
 			}
@@ -527,14 +503,13 @@ router.post('/getissuesByTag', function(req, res) {
 	var usernameStr = req.body.username;
 	var repoStr = req.body.repoStr;
 	var usertagStr = req.body.usertagStr;
-	var password = req.body.password;
 
-	var client = github.client({
-		  username: usernameStr,
-		  password: password
-		},{
-		  hostname: process.env.API_HOST
-		});
+	var token = req.body.token;
+  	console.log("token:"+token);
+
+	var client = github.client(token,{
+	  hostname: process.env.API_HOST
+	});
 
 	userIssuesmodel.userissues.find({ username: usernameStr , repo: repoStr , 'tags.tagname':{ $in:usertagStr}},function(err,issues){
 		if(err != null){

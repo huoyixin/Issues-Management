@@ -273,3 +273,16 @@ img {
 .tagBox {
     display: inline-block;
 }
+
+
+/**
+ * Login Page
+ */
+#login_top {
+	position: fixed;
+	height:400px;
+	right: 0px;
+	left: 0px;
+	top: 0px;
+	background-color: #F3F3F3;
+}
