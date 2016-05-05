@@ -335,3 +335,243 @@ img {
 .issuestitle .body {
   padding: 5px 15px;
 }
+
+
+/************************************************
+	menuPanel CSS
+ ************************************************/
+.jimu-menupanel .jimu-icon-btn {
+    margin: 5px;
+    -moz-user-select: none;
+    background-color: #eee;
+    background-image: linear-gradient(#fcfcfc, #eee);
+    border: 1px solid #d5d5d5;
+    border-radius: 3px;
+    color: #333;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 13px;
+    font-weight: bold;
+    line-height: 20px;
+    padding: 6px 12px;
+    position: relative;
+    vertical-align: middle;
+    /*white-space: nowrap;*/
+}
+
+.selIcon {
+    width: 16px;
+    height: 16px;
+    vertical-align:middle;
+}
+
+.drop-menu {
+    background-clip: padding-box;
+    background-color: #fff;
+    border: 1px solid rgba(200, 200, 200, 0.4);
+    border-radius: 3px;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.15);
+    color: #666;
+    font-size: 12px;
+    margin-bottom: 20px;
+    margin-top: 4px;
+    /*overflow: hidden;*/
+    overflow-y: auto;
+    overflow-x: hidden;
+    position: absolute;
+    width: 300px;
+    height: 500px;
+}
+
+.menu-item {
+    border-bottom: 1px solid #eee;
+    color: inherit;
+    cursor: pointer;
+    display: block;
+    overflow: hidden;
+    padding: 8px 8px 8px 8px;
+}
+
+.jimu-menupanel .menu-item-line {
+    border: 3px solid rgba(0, 0, 0, 0.33);
+    margin: 0px;
+}
+
+.select-menu-item-icon {
+    float: left;
+    margin-left: -20px;
+}
+
+.tagMenu {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+}
+
+.tagMenu .jimu-icon-btn {
+    text-align: center;
+    padding: 0px 1px 1px 1px;
+    width: 20px;
+    height: 20px;
+    min-width: 15px;
+    min-height: 15px;
+}
+
+
+/************************************************
+	TagManager CSS
+ ************************************************/
+ .jimu-simple-table{
+  width:100%;
+  margin:0;
+  padding:0;
+  overflow-x:hidden;
+  overflow-y:auto;
+  min-height: 67px;
+  position: relative;
+}
+
+.jimu-simple-table .simple-table-title{
+  font-size: 14px;
+}
+
+.jimu-simple-table .head-section{
+  width:100%;
+  height:36px;
+  overflow:hidden;
+}
+
+.jimu-simple-table.vertical-scroll .head-section > .table-div{
+  padding-right: 17px;
+}
+
+.jimu-rtl .jimu-simple-table.vertical-scroll .head-section > .table-div{
+  padding-right: 0;
+  padding-left: 17px;
+}
+
+.jimu-simple-table .head-section .simple-table-thead th.simple-table-field .jimu-checkbox{
+  position: relative;
+  top: 10px;
+  width: 100%;
+  height: 24px;
+  line-height: 16px;
+}
+
+.jimu-simple-table .head-section .simple-table-thead th.simple-table-field .jimu-checkbox > .checkbox{
+  margin-top: 0 !important;
+}
+
+.jimu-simple-table .head-section .simple-table-thead th.simple-table-field .jimu-checkbox > .label{
+  position: absolute;
+  left: 17px;
+  top: 0;
+}
+
+.jimu-rtl .jimu-simple-table .head-section .simple-table-thead th.simple-table-field .jimu-checkbox > .label{
+  position: absolute;
+  left: 0;
+  right: 17px;
+  top: 0;
+}
+
+.jimu-simple-table .body-section .simple-table-tbody td.simple-table-cell > .jimu-checkbox{
+  position: relative;
+  top: 4px;
+}
+
+.jimu-simple-table .head-section .simple-table-tbody{
+  display: none;
+}
+
+.jimu-simple-table .body-section{
+  position: absolute;
+  top: 36px;
+  bottom: 0;
+  width:100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  border-left: 1px solid #eef2f5;
+  border-right: 1px solid #eef2f5;
+  border-bottom: 1px solid #eef2f5;
+  background-color: #fafafc;
+  color: #7989a0;
+}
+
+.jimu-simple-table .body-section .table-div{
+  margin: 0;
+  min-height: 100%;
+  background-image: url(images/table_under_line.png);
+  background-repeat: repeat;
+}
+
+.jimu-simple-table .body-section .simple-table-thead{
+  display: none;
+}
+
+.jimu-simple-table .table{
+  width:100%;
+  border-collapse:collapse;
+  table-layout:fixed;
+}
+
+.jimu-simple-table .simple-table-field.hidden-column > *,.jimu-simple-table .simple-table-cell.hidden-column > *{
+  display: none;
+}
+
+.jimu-simple-table .simple-table-field{
+  height: 36px;
+  line-height: 36px;
+}
+
+.jimu-simple-table .simple-table-cell{
+  height:30px;
+  line-height:30px;
+}
+
+.jimu-simple-table .simple-table-field,.jimu-simple-table .simple-table-cell{
+  vertical-align:middle;
+  padding-left:8px;
+  padding-right:8px;
+  padding-top:0;
+  padding-bottom:0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.jimu-simple-table .simple-table-field > *,.jimu-simple-table .simple-table-cell > *{
+  text-overflow: ellipsis;
+}
+
+.jimu-simple-table .simple-table-cell > *{
+  overflow: hidden;
+}
+
+.jimu-simple-table .simple-table-row:last-child .simple-table-cell{
+  border-bottom: 0;
+}
+
+.jimu-simple-table .simple-table-row .editable-div,.jimu-simple-table .simple-table-row .normal-text-div{
+  width: 100%;
+  height: 30px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.jimu-simple-table .simple-table-row .editable-input{
+  width:100%;
+}
+
+.jimu-simple-table .simple-table-row > .actions-td .action-item-parent{
+  display: none;
+  vertical-align:middle;
+}
+
+.jimu-simple-table .simple-table-row:hover > .actions-td .action-item-parent{
+  display: inline-block;
+}
+
+.jimu-simple-table .simple-table-row > .actions-td .action-item{
+  cursor:pointer;
+}

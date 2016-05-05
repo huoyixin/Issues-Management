@@ -3,6 +3,7 @@ require(['jimu/dijit/Popup',
   'jimu/dijit/Message',
   'jimu/dijit/LoadingIndicator',
   './javascripts/jimu/menuPanel.js',
+  './javascripts/jimu/tagManager.js',
   'dojo/dom',
   'dojo/query',
   'dojo/dom-style',
@@ -32,8 +33,9 @@ require(['jimu/dijit/Popup',
   'dijit/InlineEditBox',
   'dijit/form/Textarea',
   'dojo/domReady!'
-], function(Popup, Message, LoadingIndicator, menuPanel, dom, query, domStyle, domClass, domProp, domconstruct, domAttr, cookie, lang, on, array,
+], function(Popup, Message, LoadingIndicator, menuPanel, tagManager, dom, query, domStyle, domClass, domProp, domconstruct, domAttr, cookie, lang, on, array,
   html, Button, Select, TextBox, SimpleTable, DropDownButton, TooltipDialog, dojopopup, ColorPalette, parser) {
+  
   var username_Login = '';
   var token = '';
   var MyTag;
@@ -51,7 +53,7 @@ require(['jimu/dijit/Popup',
   parser.parse();
 
   var LoadingIndicator = new LoadingIndicator({
-    hidden: true
+    hidden: false
   });
   LoadingIndicator.placeAt(dom.byId('overlayer'));
 
@@ -59,6 +61,14 @@ require(['jimu/dijit/Popup',
     name: "repos",
     options: []
   }, 'repos').startup();
+
+
+/******************
+  tagManager test
+ *****************/
+
+  var tagManager = new tagManager();
+  tagManager.placeAt(dom.byId('tagManager')).startup();
 
   var milestone = new menuPanel({
     label: 'Milestone',
@@ -152,7 +162,7 @@ require(['jimu/dijit/Popup',
   
 
   function Signin(token) {
-
+    LoadingIndicator.hide();
     var deferredResult = dojo.xhrPost({
       url: "/getuserstatus",
       postData: {
