@@ -3,12 +3,15 @@ require(['jimu/dijit/Popup',
   'jimu/dijit/Message',
   'jimu/dijit/LoadingIndicator',
   './javascripts/jimu/menuPanel.js',
+  './javascripts/jimu/tagManager.js',
   'dojo/dom',
   'dojo/query',
   'dojo/dom-style',
   'dojo/dom-class',
   'dojo/dom-prop',
   'dojo/dom-construct',
+  'dojo/dom-attr',
+  'dojo/cookie',
   'dojo/_base/lang',
   'dojo/on',
   'dojo/_base/array',
@@ -30,10 +33,11 @@ require(['jimu/dijit/Popup',
   'dijit/InlineEditBox',
   'dijit/form/Textarea',
   'dojo/domReady!'
-], function(Popup, Message, LoadingIndicator, menuPanel, dom, query, domStyle, domClass, domProp, domconstruct, lang, on, array,
+], function(Popup, Message, LoadingIndicator, menuPanel, tagManager, dom, query, domStyle, domClass, domProp, domconstruct, domAttr, cookie, lang, on, array,
   html, Button, Select, TextBox, SimpleTable, DropDownButton, TooltipDialog, dojopopup, ColorPalette, parser) {
+  
   var username_Login = '';
-  var password_Login = '';
+  var token = '';
   var MyTag;
 
   window.jimuNls = {
@@ -49,59 +53,22 @@ require(['jimu/dijit/Popup',
   parser.parse();
 
   var LoadingIndicator = new LoadingIndicator({
-    hidden: true
+    hidden: false
   });
   LoadingIndicator.placeAt(dom.byId('overlayer'));
-
-  var containerStr =
-    '<div for="username" class="margin5">Username</div>' +
-    '<input class="popupContent" type="text" value="" name="Username" data-dojo-type="dijit/form/TextBox" ' +
-    'data-dojo-props="trim:true" id="username" class="margin5"/>' +
-    '<div for="password " class="margin5">Password</div>' +
-    '<input class="popupContent" type="password" value="" name="password" data-dojo-type="dijit/form/TextBox" ' +
-    'data-dojo-props="trim:true" id="password" class="margin5"/>' +
-    '<div id= "loginmessage" class="margin5"><div/>';
-
-  var popup = new Popup({
-    id: 'loginpopup',
-    content: containerStr,
-    container: 'overlayer',
-    titleLabel: '<span class="octicon octicon-logo-github"></span>',
-    autoHeight: true,
-    width: 350,
-    buttons: [{
-      label: 'Sign in',
-      onClick: function() {
-        dom.byId('loginmessage').innerHTML = "";
-        var username = dijit.byId('username').value;
-        var password = dijit.byId('password').value;
-        Signin(username, password);
-      }
-    }],
-    onClose: function() {
-      var repo = dijit.byId('repos').value;
-      if (username_Login == '' || password_Login == "") {
-        dom.byId('loginmessage').innerHTML = "";
-        dom.byId('loginmessage').innerHTML = "Please Sign in";
-        return false;
-      } else {
-        if (repo == "") {
-          dom.byId('loginmessage').innerHTML = "";
-          dom.byId('loginmessage').innerHTML = "Sorry, can not find any repo";
-          return false;
-        } else {
-          return true;
-        };
-      };
-    }
-  });
-  popup.placeAt(dom.byId('overlayer')).startup();
-  parser.instantiate(query(".popupContent"));
 
   new Select({
     name: "repos",
     options: []
   }, 'repos').startup();
+
+
+/******************
+  tagManager test
+ *****************/
+
+  var tagManager = new tagManager();
+  tagManager.placeAt(dom.byId('tagManager')).startup();
 
   var milestone = new menuPanel({
     label: 'Milestone',
@@ -152,10 +119,10 @@ require(['jimu/dijit/Popup',
   on(dijit.byId('repos'), 'change', function(res) {
     LoadingIndicator.show();
 
-    if (username_Login.length == 0 || password_Login.length == 0) {
+    if (username_Login.length == 0) {
       alert('Error');
     } else {
-      getInformation(username_Login, password_Login, res);
+      getInformation(token, res);
       loadUserTag();
     }
   });
@@ -183,13 +150,23 @@ require(['jimu/dijit/Popup',
     getAllSelect();
   });
 
-  function Signin(username, password) {
+  if(cookie('token')){
+    token = cookie('token');
+    console.log("User-token:"+token)
+    Signin(token);
+  }else{
+    //重定向
+  }
+  
+  
+  
 
+  function Signin(token) {
+    LoadingIndicator.hide();
     var deferredResult = dojo.xhrPost({
-      url: "/signin",
+      url: "/getuserstatus",
       postData: {
-        username: username,
-        password: password
+        token: token
       },
       timeout: 40000,
       handleAs: "json"
@@ -199,23 +176,16 @@ require(['jimu/dijit/Popup',
 
       dijit.byId('repos').addOption(response);
 
-      username_Login = username;
-      password_Login = password;
-
       if (dijit.byId('repos').value != "") {
-        getInformation(username_Login, password_Login, dijit.byId('repos').value);
-        var popuplogin = dijit.byId('loginpopup');
-        loadUserImage();
+        getInformation(token, dijit.byId('repos').value);
+        getUserInfo();
         loadUserTag();
-        popuplogin.close();
       } else {
-        dom.byId('loginmessage').innerHTML = "";
-        dom.byId('loginmessage').innerHTML = "Sorry, can not find any repo";
+        //登陆失败 重定向
       }
       return response;
     }, function(error) {
-      dom.byId('loginmessage').innerHTML = "";
-      dom.byId('loginmessage').innerHTML = "Incorrect username or password.";
+        //登陆失败 重定向
       return error;
     });
 
@@ -223,8 +193,6 @@ require(['jimu/dijit/Popup',
 
   function getIssues(milestoneStr, productStr, statusStr, lableStr, outputsettingStr, assigneeStr) {
     LoadingIndicator.show();
-    var username = username_Login;
-    var password = password_Login;
     var repoStr = dijit.byId("repos").value;
 
     if (milestoneStr.length === 0) {
@@ -249,14 +217,14 @@ require(['jimu/dijit/Popup',
       assigneeStr = "ALL";
     }
 
-    if (username == '' || password == '' || repoStr == '') {
-      LoadingIndicator.hide();
-      new Message({
-        container: 'overlayer',
-        message: 'Please Sign in First'
-      });
-      return;
-    }
+    // if (username == '' || password == '' || repoStr == '') {
+    //   LoadingIndicator.hide();
+    //   new Message({
+    //     container: 'overlayer',
+    //     message: 'Please Sign in First'
+    //   });
+    //   return;
+    // }
 
     var deferredResult = dojo.xhrPost({
       url: "/getissues",
@@ -267,8 +235,8 @@ require(['jimu/dijit/Popup',
         status: statusStr,
         outputsetting: outputsettingStr,
         assignee: assigneeStr,
-        username: username,
-        password: password,
+        username: username_Login,
+        token: token,
         repo: repoStr
       },
       handleAs: "text"
@@ -288,14 +256,14 @@ require(['jimu/dijit/Popup',
 
   };
 
-  function getInformation(username_Login, password_Login, repoStr) {
+  function getInformation(token, repoStr) {
     LoadingIndicator.show();
 
     var deferredResult = dojo.xhrPost({
-      url: "/getrepo",
+      url: "/getrepoinfo",
       postData: {
         username: username_Login,
-        password: password_Login,
+        token: token,
         repo: repoStr
       },
       timeout: 30000,
@@ -367,18 +335,21 @@ require(['jimu/dijit/Popup',
     getIssues(milestoneValue, productValue, statusValue, lableValue, outputsettingValue, assigneeValue);
   }
 
-  function loadUserImage() {
+  function getUserInfo() {
     var deferredResult = dojo.xhrPost({
-      url: "/getuserimage",
+      url: "/getuserinfo",
       postData: {
-        username: username_Login,
-        password: password_Login
+        token: token,
       },
       timeout: 15000,
-      handleAs: "text"
+      handleAs: "json"
     });
     deferredResult.then(function(response) {
-      domProp.set("userpng", "src", response);
+      domProp.set("userpng", "src", response.avatar_url);
+      dom.byId("hadertitle").innerHTML = response.loginName;
+      dom.byId("subtitle").innerHTML = 'Issues-Management';
+      domAttr.set("hadertitle", "href", response.html_url);
+      username_Login = response.loginName;
       return response;
     }, function(error) {
       console.log(error);
@@ -459,9 +430,9 @@ require(['jimu/dijit/Popup',
     parser.instantiate(query(".issuescomment"));
     parser.instantiate(query(".issuesdescription"));
 
-    if (query('div.comment').length !== 0) {
+    if (query('div.count').length !== 0) {
       dom.byId('issuesCount').innerHTML = "";
-      dom.byId('issuesCount').innerHTML = "Issues Count: " + query('div.comment').length;
+      dom.byId('issuesCount').innerHTML = "Issues Count: " + query('div.count').length;
     }
   }
 
@@ -729,15 +700,13 @@ require(['jimu/dijit/Popup',
       return;
     }
 
-    var username = username_Login;
-    var password = password_Login;
     var repoStr = dijit.byId("repos").value;
 
     var deferredResult = dojo.xhrPost({
       url: "/getcomment",
       postData: {
-        username: username,
-        password: password,
+        username: username_Login,
+        token: token,
         repo: repoStr,
         number: issuesNumber
       },
@@ -764,15 +733,13 @@ require(['jimu/dijit/Popup',
       return;
     }
 
-    var username = username_Login;
-    var password = password_Login;
     var repoStr = dijit.byId("repos").value;
 
     var deferredResult = dojo.xhrPost({
       url: "/getContent",
       postData: {
-        username: username,
-        password: password,
+        username: username_Login,
+        token: token,
         repo: repoStr,
         number: issuesNumber
       },
@@ -844,7 +811,7 @@ require(['jimu/dijit/Popup',
       url: "/getissuesByTag",
       postData: {
         username: username_Login,
-        password: password_Login,
+        token: token,
         repoStr: repoStr,
         usertagStr: tagName
       },

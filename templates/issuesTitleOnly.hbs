@@ -1,7 +1,12 @@
-<div class="comment">
-  <div class="body"> 
-    {{#each this}}  
-    <p>{{title}}</p>
-    {{/each}}
-  </div>
-</div>
+{{#each this}}
+{{#if pull_request}}
+{{else}}
+  {{#if show}}  
+	<div class="issuestitle count">
+		<div class="body"> 
+			<p>{{title}}</p>
+		</div>
+	</div>
+  {{/if}}
+{{/if}}
+{{/each}}
