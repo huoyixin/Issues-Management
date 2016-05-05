@@ -43,6 +43,12 @@ img {
     font-weight: bolder;
     font-size: 30px;
 }
+#subtitle {
+    color: #111111;
+    font-weight: bolder;
+    font-size: 10px;
+    margin-left: 5px;
+}
 
 .issues-open-png {
 	float:left; 
@@ -193,7 +199,7 @@ img {
   font-weight: bold;
 }
 
-.body {
+.comment .body {
   padding: 15px;
 }
 
@@ -305,4 +311,27 @@ img {
 
 #login_top a {
 	margin-bottom: 20px;
+}
+
+
+
+
+
+.issuestitle {
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.issuestitle:not(:last-child):after {
+  content: ""; display: block;
+  margin-top: 1px;
+  margin-left: 15px;
+  border-left: 2px solid #f0f0f0;
+  height: 10px;
+  position: absolute;
+}
+
+.issuestitle .body {
+  padding: 5px 15px;
 }

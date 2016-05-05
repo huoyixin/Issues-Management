@@ -337,6 +337,7 @@ require(['jimu/dijit/Popup',
     deferredResult.then(function(response) {
       domProp.set("userpng", "src", response.avatar_url);
       dom.byId("hadertitle").innerHTML = response.loginName;
+      dom.byId("subtitle").innerHTML = 'Issues-Management';
       domAttr.set("hadertitle", "href", response.html_url);
       username_Login = response.loginName;
       return response;
@@ -419,9 +420,9 @@ require(['jimu/dijit/Popup',
     parser.instantiate(query(".issuescomment"));
     parser.instantiate(query(".issuesdescription"));
 
-    if (query('div.comment').length !== 0) {
+    if (query('div.count').length !== 0) {
       dom.byId('issuesCount').innerHTML = "";
-      dom.byId('issuesCount').innerHTML = "Issues Count: " + query('div.comment').length;
+      dom.byId('issuesCount').innerHTML = "Issues Count: " + query('div.count').length;
     }
   }
 
