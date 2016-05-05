@@ -280,9 +280,29 @@ img {
  */
 #login_top {
 	position: fixed;
-	height:400px;
 	right: 0px;
 	left: 0px;
 	top: 0px;
 	background-color: #F3F3F3;
+}
+
+#login_top .logo {
+	width: 100px;
+	height: 100px;
+	margin-top: 20px;
+}
+
+#login_top .name {
+	line-height: 60px;
+    font-weight: bolder;
+    font-size: 30px;
+    text-align: center;
+}
+
+#login_top div {
+	text-align: center;
+}
+
+#login_top a {
+	margin-bottom: 20px;
 }

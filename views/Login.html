@@ -2,14 +2,15 @@
 <html>
   <head>
     <title>Login</title>
+    <link rel='stylesheet' href='/stylesheets/buttons.css' />
   	<link rel='stylesheet' href='/stylesheets/style.css' />
     <link rel='stylesheet' href='/stylesheets/octicons/octicons.css' />
   </head>
   <body>
   	<header id='login_top'>
-        <span class="mega-octicon octicon-octoface"></span>
-  		 	<span id="hadertitle" >Issues-Management</span>
-        <a href="https://<%= AOuth_HOST %>/login/oauth/authorize?client_id=<%= CLIENT_ID %>&scope=repo"> Authorize with you Github</a>
+      <div><img class ="logo" src="/images/login.png"></div>
+      <div><p class="name" >Issues-Management</p></div>
+      <div><a href="https://<%= AOuth_HOST %>/login/oauth/authorize?client_id=<%= CLIENT_ID %>&scope=repo" class="button button-primary button-rounded button-small">Authorize with you Github</a></div>
   	</header>
   </body>
 </html>
